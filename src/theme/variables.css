@@ -1,2 +1,309 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+
+/* Установка шрифта SF UI Display */
+:root {
+  --ion-font-family: 'SF UI Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Roboto', sans-serif;
+  
+  /* Основные цвета приложения */
+  --ion-color-primary: #8560ff;
+  --ion-color-primary-rgb: 133, 96, 255;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #7554e0;
+  --ion-color-primary-tint: #9170ff;
+
+  --ion-color-secondary: #4adee0;
+  --ion-color-secondary-rgb: 74, 222, 224;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #41c3c5;
+  --ion-color-secondary-tint: #5de1e3;
+
+  --ion-color-tertiary: #2ee775;
+  --ion-color-tertiary-rgb: 46, 231, 117;
+  --ion-color-tertiary-contrast: #000000;
+  --ion-color-tertiary-contrast-rgb: 0, 0, 0;
+  --ion-color-tertiary-shade: #28cb67;
+  --ion-color-tertiary-tint: #43e983;
+
+  /* Светлая тема по умолчанию */
+  --ion-background-color: #ffffff;
+  --ion-background-color-rgb: 255, 255, 255;
+  --ion-text-color: #333333;
+  --ion-text-color-rgb: 51, 51, 51;
+  --ion-item-background: #ffffff;
+  --ion-toolbar-background: #ffffff;
+  --ion-card-background: #f4f4f4;
+  --ion-tab-bar-background: #ffffff;
+  --ion-tab-bar-color: #666666;
+  --ion-tab-bar-color-selected: #8560ff;
+  
+  /* Эффекты перехода */
+  --theme-transition-duration: 0.5s;
+  --theme-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ion-palette-dark {
+  /* Переменные для темной темы */
+  --ion-background-color: #1a191b;
+  --ion-background-color-rgb: 26, 25, 27;
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255, 255, 255;
+  --ion-item-background: #2a2a2c;
+  --ion-toolbar-background: #1a191b;
+  --ion-card-background: #2a2a2c;
+  --ion-border-color: #2a2a2a;
+  --ion-color-step-50: #1e1e1e;
+  --ion-color-step-100: #2a2a2a;
+  --ion-color-step-150: #363636;
+  --ion-color-step-200: #414141;
+  --ion-color-step-250: #4d4d4d;
+  --ion-color-step-300: #595959;
+  --ion-color-step-350: #656565;
+  --ion-color-step-400: #717171;
+  --ion-color-step-450: #7d7d7d;
+  --ion-color-step-500: #898989;
+  --ion-color-step-550: #959595;
+  --ion-color-step-600: #a0a0a0;
+  --ion-color-step-650: #acacac;
+  --ion-color-step-700: #b8b8b8;
+  --ion-color-step-750: #c4c4c4;
+  --ion-color-step-800: #d0d0d0;
+  --ion-color-step-850: #dbdbdb;
+  --ion-color-step-900: #e7e7e7;
+  --ion-color-step-950: #f3f3f3;
+  --ion-tab-bar-background: #1a191b;
+  --ion-tab-bar-color: #888888;
+  --ion-tab-bar-color-selected: #a38fe4;
+}
+
+/* Импорт шрифта */
+@font-face {
+  font-family: 'SF UI Display';
+  font-weight: 700;
+  src: local('SF UI Display Bold'), url('../assets/fonts/sfuidisplay_bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'SF UI Display';
+  font-weight: 800;
+  src: local('SF UI Display Heavy'), url('../assets/fonts/sfuidisplay_heavy.ttf') format('truetype');
+}
+
+/* Кастомизация скроллбара */
+::-webkit-scrollbar {
+    width: 6px;
+    background-color: #1a191b;
+  }
+  
+  ::-webkit-scrollbar-track {
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: linear-gradient(180deg, #8560ff 0%, #4adee0 50%, #2ee775 100%);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #9570ff 0%, #5aeef0 50%, #3ef785 100%);
+  }
+  
+  /* Кастомизация скроллбара для контента Ionic */
+  :deep(.ion-content) {
+    --scrollbar-color: linear-gradient(180deg, #8560ff 0%, #4adee0 50%, #2ee775 100%);
+    --scrollbar-width: 6px;
+  }
+
+/* Глобальные стили для плавных переходов */
+* {
+  transition: background-color var(--theme-transition-duration) var(--theme-transition-timing),
+              color var(--theme-transition-duration) var(--theme-transition-timing),
+              border-color var(--theme-transition-duration) var(--theme-transition-timing),
+              box-shadow var(--theme-transition-duration) var(--theme-transition-timing);
+}
+
+/* Стили для карточек */
+ion-card {
+  transition: transform var(--theme-transition-duration) var(--theme-transition-timing);
+}
+
+ion-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Стили для кнопок */
+ion-button {
+  transition: opacity var(--theme-transition-duration) var(--theme-transition-timing);
+}
+
+ion-button:hover {
+  opacity: 0.9;
+}
+
+/* Стили для иконок */
+ion-icon {
+  transition: transform var(--theme-transition-duration) var(--theme-transition-timing);
+}
+
+ion-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Единый стиль для кнопок в empty state: всегда фирменный фиолетовый */
+.empty-list ion-button,
+.error-container ion-button,
+.dp-empty ion-button {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+  --border-color: transparent;
+}
+
+/* Стили для списков */
+ion-item {
+  --border-color: rgba(var(--ion-text-color-rgb), 0.1);
+  --highlight-color: rgba(var(--ion-color-primary-rgb), 0.1);
+}
+
+/* Стили для инпутов */
+ion-input, ion-textarea {
+  --background: rgba(var(--ion-text-color-rgb), 0.05);
+  --color: var(--ion-text-color);
+  --placeholder-color: rgba(var(--ion-text-color-rgb), 0.5);
+}
+
+/* Стили для селектов */
+ion-select {
+  --background: rgba(var(--ion-text-color-rgb), 0.05);
+  --color: var(--ion-text-color);
+}
+
+/* Стили для тостов */
+ion-toast {
+  --background: var(--ion-card-background);
+  --color: var(--ion-text-color);
+  --border-radius: 8px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для алертов */
+ion-alert {
+  --background: var(--ion-card-background);
+  --color: var(--ion-text-color);
+}
+
+/* Стили для модальных окон */
+ion-modal {
+  --background: var(--ion-background-color);
+}
+
+/* Стили для аккордеонов */
+ion-accordion {
+  --background: var(--ion-item-background);
+  --color: var(--ion-text-color);
+}
+
+/* Стили для сегментов */
+ion-segment {
+  --background: var(--ion-card-background);
+  --color: var(--ion-text-color);
+}
+
+/* Стили для чекбоксов и радио-кнопок */
+ion-checkbox, ion-radio {
+  --background: var(--ion-item-background);
+  --border-color: rgba(var(--ion-text-color-rgb), 0.2);
+  --checkmark-color: var(--ion-color-primary);
+}
+
+/* Стили для слайдеров */
+ion-range {
+  --bar-background: rgba(var(--ion-text-color-rgb), 0.1);
+  --bar-background-active: var(--ion-color-primary);
+  --knob-background: var(--ion-color-primary);
+}
+
+/* Стили для прогресс-баров */
+ion-progress-bar {
+  --background: rgba(var(--ion-text-color-rgb), 0.1);
+  --progress-background: var(--ion-color-primary);
+}
+
+/* Стили для бейджей */
+ion-badge {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+}
+
+/* Стили для поиска */
+ion-searchbar {
+  --background: rgba(var(--ion-text-color-rgb), 0.05);
+  --color: var(--ion-text-color);
+  --placeholder-color: rgba(var(--ion-text-color-rgb), 0.5);
+}
+
+/* Стили для рефреш-контрола */
+ion-refresher {
+  --background: var(--ion-background-color);
+}
+
+/* Стили для бесконечной прокрутки */
+ion-infinite-scroll {
+  --background: var(--ion-background-color);
+}
+
+/* Стили для сайд-меню */
+ion-menu {
+  --background: var(--ion-background-color);
+  --width: 280px;
+}
+
+/* Стили для табов */
+ion-tab-bar {
+  --background: var(--ion-tab-bar-background);
+  --color: var(--ion-tab-bar-color);
+  --color-selected: var(--ion-tab-bar-color-selected);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для тулбара */
+ion-toolbar {
+  --background: var(--ion-toolbar-background);
+  --color: var(--ion-text-color);
+  --border-color: rgba(var(--ion-text-color-rgb), 0.1);
+}
+
+/* Стили для контента */
+ion-content {
+  --background: var(--ion-background-color);
+  --color: var(--ion-text-color);
+}
+
+/* Стили для списков */
+ion-list {
+  background: var(--ion-background-color);
+}
+
+/* Стили для заголовков */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ion-text-color);
+  transition: color var(--theme-transition-duration) var(--theme-transition-timing);
+}
+
+/* Стили для параграфов */
+p {
+  color: var(--ion-text-color);
+  transition: color var(--theme-transition-duration) var(--theme-transition-timing);
+}
+
+/* Стили для ссылок */
+a {
+  color: var(--ion-color-primary);
+  transition: color var(--theme-transition-duration) var(--theme-transition-timing);
+}
+
+a:hover {
+  color: var(--ion-color-primary-shade);
+  }

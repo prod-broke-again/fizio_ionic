@@ -1,6 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
+import { createPinia } from 'pinia';
+import axios from 'axios';
+import { initTelegramWebApp } from './utils/telegram';
+import { initDebugConsoleOverlay } from './utils/debugConsole';
 
 import { IonicVue } from '@ionic/vue';
 
@@ -28,15 +32,24 @@ import '@ionic/vue/css/display.css';
  */
 
 /* @import '@ionic/vue/css/palettes/dark.always.css'; */
-/* @import '@ionic/vue/css/palettes/dark.class.css'; */
-import '@ionic/vue/css/palettes/dark.system.css';
+import '@ionic/vue/css/palettes/dark.class.css';
+/* import '@ionic/vue/css/palettes/dark.system.css'; */
 
 /* Theme variables */
 import './theme/variables.css';
 
+const pinia = createPinia();
+
+// Инициализация Telegram WebApp
+initTelegramWebApp();
+
+// Экранный дебаггер (включается при ?debug=1 или localStorage.debug_console=true)
+initDebugConsoleOverlay();
+
 const app = createApp(App)
   .use(IonicVue)
-  .use(router);
+  .use(router)
+  .use(pinia);
 
 router.isReady().then(() => {
   app.mount('#app');

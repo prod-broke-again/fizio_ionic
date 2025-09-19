@@ -1,0 +1,22 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .placeholder-bg { fill: var(--ion-color-light, #f0f0f0); }
+      .placeholder-border { stroke: var(--ion-border-color, #ddd); }
+      .placeholder-icon { fill: var(--ion-color-medium, #ccc); stroke: var(--ion-color-medium-shade, #999); }
+      .placeholder-text { fill: var(--ion-color-medium, #999); }
+      @media (prefers-color-scheme: dark) {
+        .placeholder-bg { fill: var(--ion-color-dark, #2c2c2c); }
+        .placeholder-border { stroke: var(--ion-border-color, #444); }
+        .placeholder-icon { fill: var(--ion-color-medium, #666); stroke: var(--ion-color-medium-shade, #888); }
+        .placeholder-text { fill: var(--ion-color-medium, #888); }
+      }
+    </style>
+  </defs>
+  <rect width="100" height="100" class="placeholder-bg" stroke-width="1" class="placeholder-border"/>
+  <g transform="translate(50, 50)">
+    <circle cx="0" cy="0" r="15" class="placeholder-icon" stroke-width="2"/>
+    <path d="M-8,0 L8,0 M0,-8 L0,8" class="placeholder-icon" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <text x="50" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" class="placeholder-text">Нет фото</text>
+</svg> 

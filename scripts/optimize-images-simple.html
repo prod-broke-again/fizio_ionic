@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оптимизация изображений</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        .upload-area:hover {
+            border-color: #8e81ff;
+        }
+        .upload-area.dragover {
+            border-color: #8e81ff;
+            background: #f0f0ff;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .btn {
+            background: #8e81ff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        .btn:hover {
+            background: #7a6de6;
+        }
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 6px;
+        }
+        .image-preview {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+        .image-preview img {
+            max-width: 150px;
+            max-height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .image-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .download-links {
+            margin-top: 10px;
+        }
+        .download-links a {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 16px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .download-links a:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Оптимизация изображений для сетки</h1>
+        <p>Загрузите изображения для оптимизации до размера 150x300px и сжатия до 100KB</p>
+        
+        <div class="upload-area" id="uploadArea">
+            <p>📁 Перетащите изображения сюда или нажмите для выбора</p>
+            <input type="file" id="fileInput" multiple accept="image/*">
+        </div>
+        
+        <div style="text-align: center;">
+            <button class="btn" onclick="document.getElementById('fileInput').click()">
+                Выбрать файлы
+            </button>
+            <button class="btn" id="optimizeBtn" onclick="optimizeImages()" disabled>
+                Оптимизировать
+            </button>
+            <button class="btn" onclick="downloadAll()" id="downloadAllBtn" disabled>
+                Скачать все
+            </button>
+        </div>
+        
+        <div class="results" id="results" style="display: none;">
+            <h3>Результаты оптимизации:</h3>
+            <div id="imageList"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedFiles = [];
+        let optimizedImages = [];
+
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const optimizeBtn = document.getElementById('optimizeBtn');
+        const downloadAllBtn = document.getElementById('downloadAllBtn');
+        const results = document.getElementById('results');
+        const imageList = document.getElementById('imageList');
+
+        // Обработка drag & drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            selectedFiles = Array.from(files).filter(file => 
+                file.type.startsWith('image/')
+            );
+            
+            if (selectedFiles.length > 0) {
+                optimizeBtn.disabled = false;
+                console.log(`Выбрано ${selectedFiles.length} изображений`);
+            }
+        }
+
+        async function optimizeImages() {
+            if (selectedFiles.length === 0) return;
+
+            optimizeBtn.disabled = true;
+            optimizeBtn.textContent = 'Обрабатываем...';
+            optimizedImages = [];
+
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const file = selectedFiles[i];
+                console.log(`Обрабатываем ${file.name}...`);
+
+                try {
+                    const optimized = await optimizeImage(file);
+                    optimizedImages.push(optimized);
+                } catch (error) {
+                    console.error(`Ошибка при обработке ${file.name}:`, error);
+                }
+            }
+
+            displayResults();
+            optimizeBtn.disabled = false;
+            optimizeBtn.textContent = 'Оптимизировать';
+            downloadAllBtn.disabled = false;
+        }
+
+        async function optimizeImage(file) {
+            return new Promise((resolve, reject) => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+
+                img.onload = async () => {
+                    // Устанавливаем размеры
+                    canvas.width = 150;
+                    canvas.height = 300;
+
+                    // Рисуем изображение с ресайзом
+                    ctx.drawImage(img, 0, 0, 150, 300);
+
+                    // Создаем WebP версию
+                    const webpBlob = await canvasToBlob(canvas, 'image/webp', 0.85);
+                    const webpUrl = URL.createObjectURL(webpBlob);
+
+                    // Создаем JPEG версию
+                    const jpegBlob = await canvasToBlob(canvas, 'image/jpeg', 0.8);
+                    const jpegUrl = URL.createObjectURL(jpegBlob);
+
+                    resolve({
+                        name: file.name.replace(/\.[^/.]+$/, ""),
+                        webp: { blob: webpBlob, url: webpUrl },
+                        jpeg: { blob: jpegBlob, url: jpegUrl },
+                        originalSize: file.size
+                    });
+                };
+
+                img.onerror = reject;
+                img.src = URL.createObjectURL(file);
+            });
+        }
+
+        function canvasToBlob(canvas, type, quality) {
+            return new Promise((resolve) => {
+                canvas.toBlob(resolve, type, quality);
+            });
+        }
+
+        function displayResults() {
+            results.style.display = 'block';
+            imageList.innerHTML = '';
+
+            optimizedImages.forEach((img, index) => {
+                const webpSizeKB = Math.round(img.webp.blob.size / 1024);
+                const jpegSizeKB = Math.round(img.jpeg.blob.size / 1024);
+                const originalSizeKB = Math.round(img.originalSize / 1024);
+
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'image-preview';
+                imageDiv.innerHTML = `
+                    <img src="${img.webp.url}" alt="${img.name}">
+                    <div class="image-info">
+                        <strong>${img.name}</strong><br>
+                        WebP: ${webpSizeKB}KB | JPEG: ${jpegSizeKB}KB<br>
+                        Исходный: ${originalSizeKB}KB
+                    </div>
+                    <div class="download-links">
+                        <a href="${img.webp.url}" download="${img.name}_150x300.webp">Скачать WebP</a>
+                        <a href="${img.jpeg.url}" download="${img.name}_150x300.jpg">Скачать JPEG</a>
+                    </div>
+                `;
+                imageList.appendChild(imageDiv);
+            });
+        }
+
+        function downloadAll() {
+            optimizedImages.forEach(img => {
+                // Скачиваем WebP
+                const webpLink = document.createElement('a');
+                webpLink.href = img.webp.url;
+                webpLink.download = `${img.name}_150x300.webp`;
+                webpLink.click();
+
+                // Скачиваем JPEG
+                const jpegLink = document.createElement('a');
+                jpegLink.href = img.jpeg.url;
+                jpegLink.download = `${img.name}_150x300.jpg`;
+                jpegLink.click();
+            });
+        }
+    </script>
+</body>
+</html>
