@@ -13,7 +13,7 @@
         <div class="button-group">
           <ion-button 
             expand="block" 
-            @click="$router.push('/nutrition_old')"
+            @click="router.push('/nutrition_old')"
             class="test-button"
           >
             Старая страница питания (NewNutritionPage)
@@ -21,7 +21,7 @@
           
           <ion-button 
             expand="block" 
-            @click="$router.push('/nutrition')"
+            @click="router.push('/nutrition')"
             class="test-button"
           >
             Страница питания V2 (NutritionV2Page)
@@ -29,7 +29,7 @@
           
           <ion-button 
             expand="block" 
-            @click="$router.push('/nutrition-v3')"
+            @click="router.push('/nutrition-v3')"
             class="test-button primary"
           >
             Новая страница питания V3 (NutritionV3Page) ⭐
@@ -54,6 +54,9 @@
 
 <script setup lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 </script>
 
 <style scoped>

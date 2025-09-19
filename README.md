@@ -180,13 +180,45 @@ npm run build
 
 **Android:**
 ```bash
+# Сборка веб-версии
+npm run build
+
+# Синхронизация с Android
+npx cap sync android
+
+# Открытие в Android Studio
+npx cap open android
+
+# Запуск на устройстве/эмуляторе
 npx cap run android
 ```
 
-**iOS:**
+**iOS (только на macOS):**
 ```bash
+# Сборка веб-версии
+npm run build
+
+# Синхронизация с iOS
+npx cap sync ios
+
+# Открытие в Xcode
+npx cap open ios
+
+# Запуск в симуляторе
 npx cap run ios
 ```
+
+## 🌐 Деплой на сервер
+
+```bash
+# Автоматический деплой
+npm run deploy:prod
+
+# Или с автоматическим вводом пароля
+npm run deploy:auto
+```
+
+**📋 Подробные инструкции по сборке**: [scripts/README.md](scripts/README.md)
 
 ### Backend (Laravel)
 
